@@ -1,0 +1,15 @@
+server:
+  port: 8080
+spring:
+  thymeleaf:
+    cache: false
+
+dubbo:
+  registry:
+    address: zookeeper://120.24.220.176:2181
+  application:
+    name: back
+  consumer:
+    check: false
+  protocol:
+    port: -1
