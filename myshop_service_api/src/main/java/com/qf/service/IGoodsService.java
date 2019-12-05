@@ -15,4 +15,11 @@ public interface IGoodsService {
      * @return
      */
     List<Goods> list();
+
+    /**
+     * 添加商品信息
+     * @param goods
+     * @return
+     */
+    int insert(Goods goods);
 }
