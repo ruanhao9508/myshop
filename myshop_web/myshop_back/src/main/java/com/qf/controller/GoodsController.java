@@ -1,8 +1,6 @@
 package com.qf.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.tobato.fastdfs.domain.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.qf.entity.Goods;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @Auth RuanHao
@@ -34,12 +33,13 @@ public class GoodsController {
 
     @RequestMapping("/list")
     public String list(Model model){
-        /*List<Goods> goodsList = goodsService.list();
-        model.addAttribute("goodsList",goodsList);*/
+        List<Goods> goodsList = goodsService.list();
+        model.addAttribute("goodsList",goodsList);
         //分页查询
-        Page<Goods> page=new Page<>(2,1);
+       /* Page<Goods> page=new Page<>(1,1);
         IPage<Goods> goodsPage=goodsService.listPage(page);
-        //当前页码
+
+         //当前页码
         System.out.println("goodsPage.getCurrent:"+goodsPage.getCurrent());
         //总页数
         System.out.println("goodsPage.getPages:"+goodsPage.getPages());
@@ -47,8 +47,9 @@ public class GoodsController {
         System.out.println("goodsPage.getTotal:"+goodsPage.getTotal());
         //每页记录数
         System.out.println("goodsPage.getSize:"+goodsPage.getSize());
-        /*goodsPage.getRecords() 存储查询出来数据的集合*/
-        model.addAttribute("goodsList",goodsPage.getRecords());
+
+        //goodsPage.getRecords() 存储查询出来数据的集合
+        model.addAttribute("goodsList",goodsPage.getRecords());*/
         return "goodslist";
     }
 

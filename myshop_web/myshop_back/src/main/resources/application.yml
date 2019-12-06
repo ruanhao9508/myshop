@@ -6,7 +6,7 @@ spring:
 
 dubbo:
   registry:
-    address: zookeeper://120.24.220.176:2181
+    address: zookeeper://192.168.200.200:2181
   application:
     name: back
   consumer:

@@ -2,7 +2,7 @@ dubbo:
   application:
     name: goods
   registry:
-    address: zookeeper://120.24.220.176:2181
+    address: zookeeper://192.168.200.200:2181
   protocol:
     port: -1
   consumer:

@@ -25,6 +25,15 @@
              gi.url as 'otherImages'
              from goods g left join goods_images gi on g.id = gi.gid where gi.isfengmian = 0 or gi.isfengmian is null
     </select>
+
+    <!--根据Id查询商品信息-->
+    <select id="getGoodsById" resultMap="MyResultMapper">
+        select g.*,
+            (select gis.url from goods_images gis where gid = g.id and gis.isfengmian = 1) as 'fmImage',
+             gi.url as 'otherImages'
+             from goods g  join goods_images gi on g.id = gi.gid where (gi.isfengmian = 0 or gi.isfengmian is null) and g.id=#{id}
+    </select>
+
     <!--分页查询-->
     <select id="getListPage" resultMap="MyResultMapper">
        select g.*, (select gis.url
@@ -34,7 +43,7 @@
          FROM goods g join goods_images gi
          ON g.id = gi.gid
          WHERE gi.isfengmian = 0
-        GROUP BY `subject`
+        GROUP BY g.id
     </select>
 
 </mapper>

@@ -19,6 +19,13 @@ public interface GoodsMapper  extends BaseMapper<Goods> {
    List<Goods> getList();
 
     /**
+     * 根据id查询商品信息
+     * @param id
+     * @return
+     */
+   Goods getGoodsById(Integer id);
+
+    /**
      * 分页查询
      * @param page
      * @return
