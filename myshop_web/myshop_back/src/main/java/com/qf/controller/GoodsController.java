@@ -1,6 +1,8 @@
 package com.qf.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.tobato.fastdfs.domain.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.qf.entity.Goods;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @Auth RuanHao
@@ -33,8 +34,21 @@ public class GoodsController {
 
     @RequestMapping("/list")
     public String list(Model model){
-        List<Goods> goodsList = goodsService.list();
-        model.addAttribute("goodsList",goodsList);
+        /*List<Goods> goodsList = goodsService.list();
+        model.addAttribute("goodsList",goodsList);*/
+        //分页查询
+        Page<Goods> page=new Page<>(2,1);
+        IPage<Goods> goodsPage=goodsService.listPage(page);
+        //当前页码
+        System.out.println("goodsPage.getCurrent:"+goodsPage.getCurrent());
+        //总页数
+        System.out.println("goodsPage.getPages:"+goodsPage.getPages());
+        //总记录数
+        System.out.println("goodsPage.getTotal:"+goodsPage.getTotal());
+        //每页记录数
+        System.out.println("goodsPage.getSize:"+goodsPage.getSize());
+        /*goodsPage.getRecords() 存储查询出来数据的集合*/
+        model.addAttribute("goodsList",goodsPage.getRecords());
         return "goodslist";
     }
 
@@ -59,23 +73,6 @@ public class GoodsController {
             e.printStackTrace();
         }
         return new ResultData<String>().setCode(ResultData.ResultCodeList.OK).setData(path);
-      /*  System.out.println("触发了文件上传:"+file.getOriginalFilename());
-        //准备文件名称
-        String fileName= UUID.randomUUID().toString()+".jpg";
-        //文件上传后路径
-        String uploadPath=path+"/"+fileName;
-
-        //先读取前端传的图片,再新建一个输出流写到要存储的路径
-        try(
-                InputStream is=file.getInputStream();
-                OutputStream os=new FileOutputStream(uploadPath);
-                ) {
-            IOUtils.copy(is,os);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //返回图像存储的地址
-        return new ResultData<String>().setCode(ResultData.ResultCodeList.OK).setData();*/
     }
 
     /**

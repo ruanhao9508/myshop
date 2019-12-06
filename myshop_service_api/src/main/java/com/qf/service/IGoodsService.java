@@ -1,5 +1,7 @@
 package com.qf.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qf.entity.Goods;
 
 import java.util.List;
@@ -22,4 +24,11 @@ public interface IGoodsService {
      * @return
      */
     int insert(Goods goods);
+
+    /**
+     * 分页查询
+     * @param page
+     * @return
+     */
+    IPage<Goods> listPage(Page<Goods> page);
 }
