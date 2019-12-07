@@ -19,6 +19,13 @@ public interface IGoodsService {
     List<Goods> list();
 
     /**
+     * 根据id查询商品
+     * @param id
+     * @return
+     */
+    Goods getGoodsById(Integer id);
+
+    /**
      * 添加商品信息
      * @param goods
      * @return

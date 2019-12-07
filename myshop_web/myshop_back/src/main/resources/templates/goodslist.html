@@ -53,7 +53,7 @@
                         <td><input type="checkbox" /></td>
                         <td th:text="${goods.id}">编号</td>
                         <td th:text="${goods.subject}">商品标题</td>
-                        <td><img style="width: 100px;height: 100px" th:src="|http://192.168.200.200:8080/${goods.fmImage}|"/></td>
+                        <td><img style="width: 100px;height: 100px" th:src="${goods.fmImage}"/></td>
                         <td th:text="${#numbers.formatCurrency(goods.price)}">商品价格</td>
                         <td th:text="${goods.save}">商品库存</td>
                         <td>
@@ -135,7 +135,7 @@
             uploader.on('uploadSuccess',function (file,response) {
                 if (response.code=='200'){
                     //设置图片回显
-                    $("#fm_image").attr("src","http://192.168.200.200:8080/"+response.data);
+                    $("#fm_image").attr("src",response.data);
                     $("#fmImage").val(response.data);
                 } else{
                     alert("图片上传失败!");
@@ -169,7 +169,7 @@
         uploader.on('uploadSuccess',function (file,response) {
             if (response.code=='200'){
                 //设置图片回显
-                var htmlImage="<img style='120px;height: 120px;margin: 5px' src='http://192.168.200.200:8080/"+response.data+"'/>";
+                var htmlImage="<img style='120px;height: 120px;margin: 5px' src='"+response.data+"'/>";
                 $("#otherImages").append(htmlImage);
                 //隐藏域
                 var  htmlHidden="<input type='hidden' name='otherImages' value="+response.data+" />"

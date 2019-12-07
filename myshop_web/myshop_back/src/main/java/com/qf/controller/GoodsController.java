@@ -73,7 +73,7 @@ public class GoodsController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ResultData<String>().setCode(ResultData.ResultCodeList.OK).setData(path);
+        return new ResultData<String>().setCode(ResultData.ResultCodeList.OK).setData("http://www.image.com:8080/"+path);
     }
 
     /**

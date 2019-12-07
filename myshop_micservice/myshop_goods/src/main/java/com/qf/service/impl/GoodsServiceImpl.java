@@ -42,6 +42,16 @@ public class GoodsServiceImpl implements IGoodsService {
     }
 
     /**
+     * 根据id查询商品
+     * @param id
+     * @return
+     */
+    @Override
+    public Goods getGoodsById(Integer id) {
+        return goodsMapper.getGoodsById(id);
+    }
+
+    /**
      * 添加商品信息
      * @param goods
      * @return

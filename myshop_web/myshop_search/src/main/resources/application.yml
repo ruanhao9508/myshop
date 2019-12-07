@@ -1,5 +1,14 @@
 server:
   port: 8081
+
 spring:
   thymeleaf:
     cache: false
+
+dubbo:
+  application:
+    name: myshop-search
+  consumer:
+    check: false
+  registry:
+    address: zookeeper://192.168.200.200:2181
