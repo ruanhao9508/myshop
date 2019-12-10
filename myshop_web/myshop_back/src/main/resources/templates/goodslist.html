@@ -28,6 +28,19 @@
     <!--webuploader上传的依赖-->
     <script src="resources/widget/webuploader/webuploader.min.js"></script>
     <link rel="stylesheet" href="resources/widget/webuploader/webuploader.css"/>
+
+    <style type="text/css">
+        td{
+            border: solid lightsteelblue 1px;
+            vertical-align: middle;
+        }
+        tr{
+            border: solid lightsteelblue 1px;
+        }
+        th{
+            border: solid lightsteelblue 1px;
+        }
+    </style>
 </head>
 <body>
 <div id="main-content">
@@ -69,7 +82,7 @@
 
                     <tfoot>
                     <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                             <div class="bulk-actions align-left">
                                <!-- <select name="dropdown">
                                     <option value="option1">Choose an action...</option>
@@ -79,13 +92,14 @@
                                 <button class="mybutton"  onclick="dialog()">添加商品</button>
                             </div>
                             <div class="pagination">
-                                <a href="#" title="First Page">&laquo; First</a><a href="#"
-                                                                                   title="Previous Page">&laquo; Previous</a> <a href="#"
-                                                                                                                                 class="number" title="1">1</a> <a href="#" class="number"
-                                                                                                                                                                   title="2">2</a> <a href="#" class="number current" title="3">3</a>
-                                <a href="#" class="number" title="4">4</a> <a href="#"
-                                                                              title="Next Page">Next &raquo;</a><a href="#"
-                                                                                                                   title="Last Page">Last &raquo;</a>
+                                <a href="javascript:void(0)" id="firstPage" title="First Page">&laquo; 首页</a>
+                                <a href="javascript:void(0)" id="previousPage" title="Previous Page">&laquo; 上一页</a>
+                                <a href="javascript:void(0)" class="number" title="1">1</a>
+                                <a href="javascript:void(0)" class="number" title="2">2</a>
+                                <a href="javascript:void(0)" class="number current" title="3">3</a>
+                                <a href="javascript:void(0)" class="number" title="4">4</a>
+                                <a href="javascript:void(0)" id="nextPage" title="Next Page">下一页 &raquo;</a>
+                                <a href="javascript:void(0)" id="lastPage" title="Last Page">尾页 &raquo;</a>
                             </div> <!-- End .pagination -->
                             <div class="clear"></div>
                         </td>
@@ -98,7 +112,16 @@
         <!-- End .content-box-content -->
     </div>
 </div>
-
+<!--分页-->
+<script>
+    $("#firstPage").click(function () {
+        $.ajax({
+            type:"POST",
+            url:[[${myPage.url}]],
+            data:{"currePage": 1}
+        });
+    });
+</script>
 <!--弹出窗-->
 <script>
     function dialog() {

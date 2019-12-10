@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.tobato.fastdfs.domain.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.qf.entity.Goods;
+import com.qf.entity.MyPage;
 import com.qf.entity.ResultData;
 import com.qf.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,24 +33,28 @@ public class GoodsController {
     private FastFileStorageClient fastFileStorageClient;
 
     @RequestMapping("/list")
-    public String list(Model model){
+    public String list(Model model, MyPage myPage){
         List<Goods> goodsList = goodsService.list();
         model.addAttribute("goodsList",goodsList);
-        //分页查询
-       /* Page<Goods> page=new Page<>(1,1);
-        IPage<Goods> goodsPage=goodsService.listPage(page);
 
-         //当前页码
+        //分页查询
+        /*Page<Goods> page=new Page<>(myPage.getCurrePage(),myPage.getPageSize());
+        IPage<Goods> goodsPage=goodsService.listPage(page);*/
+
+         /*//当前页码
         System.out.println("goodsPage.getCurrent:"+goodsPage.getCurrent());
         //总页数
         System.out.println("goodsPage.getPages:"+goodsPage.getPages());
         //总记录数
         System.out.println("goodsPage.getTotal:"+goodsPage.getTotal());
         //每页记录数
-        System.out.println("goodsPage.getSize:"+goodsPage.getSize());
+        System.out.println("goodsPage.getSize:"+goodsPage.getSize());*/
 
+        /*myPage.setUrl("/goods/list");*/
         //goodsPage.getRecords() 存储查询出来数据的集合
-        model.addAttribute("goodsList",goodsPage.getRecords());*/
+        /*model.addAttribute("goodsList",goodsPage.getRecords());
+        model.addAttribute("goodsPage",goodsPage);
+        model.addAttribute("myPage",myPage);*/
         return "goodslist";
     }
 

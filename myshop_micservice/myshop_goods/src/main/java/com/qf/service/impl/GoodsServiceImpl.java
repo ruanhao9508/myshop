@@ -10,6 +10,7 @@ import com.qf.entity.Goods;
 import com.qf.entity.GoodsImages;
 import com.qf.service.IGoodsService;
 import com.qf.service.ISearchService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +25,15 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Autowired
     private GoodsMapper goodsMapper;
+
     @Autowired
     private GoodsImagesMapper goodsImagesMapper;
+
     @Reference
     private ISearchService searchService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * 查询所有商品信息
@@ -73,8 +79,9 @@ public class GoodsServiceImpl implements IGoodsService {
         }
 
         //同步索引库
-        searchService.insertSolr(goods);
-
+//        searchService.insertSolr(goods);
+        //异步添加->将添加索引库的消息发送到MQ
+        rabbitTemplate.convertAndSend("goods_exchange","",goods);
         return 1;
     }
 
