@@ -1,0 +1,14 @@
+spring:
+  mail:
+    #默认发送邮件基于smtp协议
+    protocol: smtp
+    host: smtp.sina.com
+    #发送方的邮箱地址
+    username: ruanhao9508@sina.com
+    #发送方的密码(授权码:458282cfcc4f5c42)
+    password: 458282cfcc4f5c42
+  rabbitmq:
+    host: 192.168.200.200
+    username: admin
+    password: admin
+    virtual-host: /admin

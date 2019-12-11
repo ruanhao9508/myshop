@@ -1,13 +1,13 @@
-package com.qf.myshop_sso;
+package com.qf.myshop_mail;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = "com.qf")
-public class MyshopSsoApplication {
+public class MyshopMailApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MyshopSsoApplication.class, args);
+        SpringApplication.run(MyshopMailApplication.class, args);
     }
 
 }
