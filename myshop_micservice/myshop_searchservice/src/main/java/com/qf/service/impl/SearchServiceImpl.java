@@ -46,7 +46,7 @@ public class SearchServiceImpl implements ISearchService {
         document.addField("image",goods.getFmImage());
 
         try {
-            //solrClient.xxx方法要chu
+            //solrClient.xxx方法要传一个document
             solrClient.add(document);
             //所有的增删改都需要提交(commit)
             solrClient.commit();

@@ -2,6 +2,7 @@ package com.qf.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.qf.entity.Email;
+import com.qf.entity.Messages;
 import com.qf.entity.ResultData;
 import com.qf.entity.User;
 import com.qf.service.IUserService;
@@ -74,7 +75,8 @@ public class ForgetController {
                 .setContext("点击<a href='"+url+"'>这里</a>找回密码")
                 .setSendTime(new Date());
 
-        rabbitTemplate.convertAndSend("mail_exchange","",email);
+        //异步发送邮件
+        rabbitTemplate.convertAndSend("direct_exchange","email",email);
 
         //拿到邮箱
         String emailName= user.getEmail();
@@ -120,6 +122,82 @@ public class ForgetController {
         userService.updatePassword(username,newpassword);
         //删除token
         redisTemplate.delete(token);
+        return "login";
+    }
+
+    /**
+     * 发送短信验证码
+     * @param messages
+     * @return
+     */
+    @RequestMapping("/sendmsg")
+    @ResponseBody
+    public String sendMessages(Messages messages){
+
+        //生成6位数验证码
+        String code=(int)(Math.random()*900000+100000)+"";
+        messages.setCode(code);
+//        System.out.println(messages);
+        redisTemplate.opsForValue().set("Code",code);
+//        String code1 = redisTemplate.opsForValue().get("Code");
+//        System.out.println(code1);
+        //设置超时时间,5分钟
+        redisTemplate.expire("Code",5, TimeUnit.MINUTES);
+        //异步发送短信验证码
+        rabbitTemplate.convertAndSend("direct_exchange","messages",messages);
+        String data="发送成功!";
+        return data;
+    }
+
+    /**
+     * 用户点击找回密码,验证输入的手机号和验证码,并根据手机号查询用户的存在性
+     * @param messages
+     * @return
+     */
+    @RequestMapping("/getuserbyphone")
+    @ResponseBody
+    public ResultData getUerbyPhone(Messages messages){
+        ResultData resultData=new ResultData();
+        String code = redisTemplate.opsForValue().get("Code");
+        if (messages.getCode().equals(code)){
+            //说明验证码相同,查询用户存在与否
+            User user = userService.getUserByPhone(messages.getPhone());
+//            System.out.println(user);
+            if (user!=null){
+                String url="/forget/toupdatemm?phone="+messages.getPhone();
+                resultData.setCode(ResultData.ResultCodeList.OK).setData(url);
+                return resultData;
+            }
+            //用户不存在
+            resultData.setCode(ResultData.ResultCodeList.ERROR).setMsg("该用户不存在或手机号有误!");
+        }else{//验证码错误
+            resultData.setCode(ResultData.ResultCodeList.ERROR).setMsg("验证码错误");
+        }
+        return resultData;
+    }
+
+    /**
+     * 跳转到修改密码页面
+     * @return
+     */
+    @RequestMapping("/toupdatemm")
+    public String toUpdateMM(){
+        return "updatemmbyphone";
+    }
+
+
+    /**
+     * 修改密码
+     * @param newpassword
+     * @param phone
+     * @return
+     */
+    @RequestMapping("/updatemmbyphone")
+    public String updateMMByPhone(String newpassword,String phone){
+        //修改密码
+        userService.updateMMByPhone(phone,newpassword);
+        //删除token
+        redisTemplate.delete("Code");
         return "login";
     }
 }

@@ -29,4 +29,19 @@ public interface IUserService {
      * @return
      */
     int updatePassword(String username,String password);
+
+    /**
+     * 根据手机号查找用户信息
+     * @param phone
+     * @return
+     */
+    User getUserByPhone(String phone);
+
+    /**
+     * 手机验证码修改密码
+     * @param phone
+     * @param password
+     * @return
+     */
+    int updateMMByPhone(String phone,String password);
 }

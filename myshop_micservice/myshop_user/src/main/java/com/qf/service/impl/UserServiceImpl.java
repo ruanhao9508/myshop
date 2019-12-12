@@ -46,7 +46,7 @@ public class UserServiceImpl implements IUserService {
     public User getUserByName(String username) {
         QueryWrapper queryWrapper=new QueryWrapper();
         queryWrapper.eq("username",username);
-        //查这个username的数量
+
         User user = userMapper.selectOne(queryWrapper);
         return user;
     }
@@ -64,6 +64,33 @@ public class UserServiceImpl implements IUserService {
         //设置新的密码
         user.setPassword(password);
         //修改密码
+        return userMapper.updateById(user);
+    }
+
+    /**
+     * 手机验证码找回时,根据手机号查找用户信息
+     * @param phone
+     * @return
+     */
+    @Override
+    public User getUserByPhone(String phone) {
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.eq("phone",phone);
+
+        User user = userMapper.selectOne(queryWrapper);
+        return user;
+    }
+
+    /**
+     * 手机验证码修改密码
+     * @param phone
+     * @param password
+     * @return
+     */
+    @Override
+    public int updateMMByPhone(String phone, String password) {
+        User user = this.getUserByPhone(phone);
+        user.setPassword(password);
         return userMapper.updateById(user);
     }
 }
