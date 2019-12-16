@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>修改密码</h1>
-<form action="/forget/updatemmbyphone">
+<form action="/forget/updatemmbyphone" method="post">
     <input type="hidden" name="phone" th:value="${#request.getParameter('phone')}"/>
     新的密码:<input type="password" name="newpassword"/><br/>
     <button type="submit">修改密码</button>

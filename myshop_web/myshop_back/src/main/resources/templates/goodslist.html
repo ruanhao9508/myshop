@@ -29,6 +29,10 @@
     <script src="resources/widget/webuploader/webuploader.min.js"></script>
     <link rel="stylesheet" href="resources/widget/webuploader/webuploader.css"/>
 
+    <!--layui-->
+    <script src="resources/layui/layui.js"></script>
+    <link rel="stylesheet" href="resources/layui/css/layui.css" media="all">
+
     <style type="text/css">
         td{
             border: solid lightsteelblue 1px;
@@ -42,13 +46,13 @@
         }
     </style>
 </head>
-<body>
+<body id="mybody">
 <div id="main-content">
     <div class="content-box">
         <!-- End .content-box-header -->
         <div class="content-box-content">
             <div class="tab-content default-tab" id="tab1">
-                <table>
+                <table id="mytable">
                     <thead>
                     <tr>
                         <th><input class="check-all" type="checkbox" /></th>
@@ -89,9 +93,9 @@
                                     <option value="option2">Edit</option>
                                     <option value="option3">Delete</option>
                                 </select> -->
-                                <button class="mybutton"  onclick="dialog()">添加商品</button>
+                                <button class="mybutton" onclick="dialog()">添加商品</button>
                             </div>
-                            <div class="pagination">
+                           <!-- <div class="pagination">
                                 <a href="javascript:void(0)" id="firstPage" title="First Page">&laquo; 首页</a>
                                 <a href="javascript:void(0)" id="previousPage" title="Previous Page">&laquo; 上一页</a>
                                 <a href="javascript:void(0)" class="number" title="1">1</a>
@@ -100,7 +104,8 @@
                                 <a href="javascript:void(0)" class="number" title="4">4</a>
                                 <a href="javascript:void(0)" id="nextPage" title="Next Page">下一页 &raquo;</a>
                                 <a href="javascript:void(0)" id="lastPage" title="Last Page">尾页 &raquo;</a>
-                            </div> <!-- End .pagination -->
+                            </div>--> <!-- End .pagination -->
+                            <div id="mypage" style="padding-left: 40%"></div>
                             <div class="clear"></div>
                         </td>
                     </tr>
@@ -113,12 +118,32 @@
     </div>
 </div>
 <!--分页-->
-<script>
-    $("#firstPage").click(function () {
-        $.ajax({
-            type:"POST",
-            url:[[${myPage.url}]],
-            data:{"currePage": 1}
+<script th:inline="javascript">
+    layui.use('laypage', function(){
+        var laypage = layui.laypage;
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'mypage' //注意，这里的 test1 是 ID，不用加 # 号
+            ,count: [[${goodsPage.total}]]//数据总数，从服务端得到
+            ,limit: [[${myPage.pageSize}]]
+            ,limits:[1,3,5,8,10]
+            ,curr:[[${myPage.currePage}]]
+            ,groups:5
+            // ,first:'首页'
+            // ,last:'尾页'
+            ,layout:['count','first','prev','page','next','last','refresh','limit','skip']
+            ,jump: function(obj, first){
+                //obj包含了当前分页的所有参数，比如：
+                console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                console.log(obj.limit); //得到每页显示的条数
+
+                //首次不执行
+                if(!first){
+                    //do something
+                    $("#mybody").load([[${myPage.url}]]+"?currePage="+obj.curr+"&pageSize="+obj.limit);
+                }
+            }
         });
     });
 </script>

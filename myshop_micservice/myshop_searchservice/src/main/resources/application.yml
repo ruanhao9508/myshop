@@ -5,6 +5,10 @@ dubbo:
     address:  zookeeper://192.168.200.200:2181
   consumer:
     check: false
+    #超时时间
+    timeout: 5000
+    #失败后重试次数
+    retries: 0
   protocol:
     port: -1
 

@@ -22,7 +22,7 @@ dubbo:
   consumer:
     check: false
     #超时时间
-    timeout: 1000
+    timeout: 5000
     #失败后重试次数
     retries: 0
 
